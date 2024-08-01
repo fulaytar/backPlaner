@@ -3,7 +3,7 @@ import {
   dateSchema,
   inputTimeSchema,
   phoneNumberSchema,
-} from '../../constanst/constant.js';
+} from '../../constants/constant.js';
 //{name: 'Ствол смерти', phoneNumber: '+380664318305', lessonTime: '17-30', date: '2024-08-01'}
 
 const timePlanerSchema = new Schema({
