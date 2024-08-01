@@ -1,5 +1,5 @@
-import timePlaner from '../db/models/timePlaner.js';
+import timePlanner from '../db/models/timePlaner.js';
 
-export const getAllPlaner = () => timePlaner.find();
+export const getAllPlanner = () => timePlanner.find();
 
-export const getPlanerById = id => timePlaner.findById(id);
+export const getPlannerById = id => timePlanner.findById(id);

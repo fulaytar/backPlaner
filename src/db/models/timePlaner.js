@@ -6,7 +6,7 @@ import {
 } from '../../constants/constant.js';
 //{name: 'Ствол смерти', phoneNumber: '+380664318305', lessonTime: '17-30', date: '2024-08-01'}
 
-const timePlanerSchema = new Schema({
+const timePlannerSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -28,6 +28,6 @@ const timePlanerSchema = new Schema({
   },
 });
 
-const timePlaner = model('timePlaner', timePlanerSchema);
+const timePlanner = model('timePlaner', timePlannerSchema);
 
-export default timePlaner;
+export default timePlanner;
