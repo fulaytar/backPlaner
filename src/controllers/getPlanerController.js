@@ -8,7 +8,7 @@ export const getAllPlannerController = async (req, res) => {
 
   res.status(200).send({
     status: 200,
-    message: `Successfully found all planner `,
+    message: `Successfully found all planner`,
     data: allData,
   });
 };

@@ -4,6 +4,7 @@ import pino from 'pino-http';
 import env from './utils/env.js';
 import plannerRouter from './routers/planer_router.js';
 import notFoundPage from './middlewares/notFoundPage.js';
+import errorHandler from './middlewares/errorHandler.js';
 
 const setupServer = () => {
   const app = express();
@@ -22,6 +23,7 @@ const setupServer = () => {
   app.use('/timeplanner', plannerRouter);
 
   app.use('*', notFoundPage);
+  app.use(errorHandler);
 
   app.listen(PORT, () => console.log(`Server running on port ${PORT} ...`));
 };
