@@ -1,3 +1,4 @@
+import createHttpError from 'http-errors';
 import {
   getAllPlanner,
   getPlannerById,
@@ -13,15 +14,12 @@ export const getAllPlannerController = async (req, res) => {
   });
 };
 
-export const getPlannerByIdControler = async (req, res) => {
+export const getPlannerByIdController = async (req, res) => {
   const { id } = req.params;
   const dataById = await getPlannerById(id);
 
   if (!dataById) {
-    return res.status(404).send({
-      status: 404,
-      message: `Sorry, not found ${id}`,
-    });
+    throw createHttpError(404, `Sorry, not found ${id}`);
   }
 
   res.status(200).send({

@@ -1,8 +1,11 @@
 import { Schema, model } from 'mongoose';
 import {
   dateSchema,
+  daySchema,
   inputTimeSchema,
+  monthSchema,
   phoneNumberSchema,
+  yearSchema,
 } from '../../constants/constant.js';
 //{name: 'Ствол смерти', phoneNumber: '+380664318305', lessonTime: '17-30', date: '2024-08-01'}
 
@@ -25,6 +28,21 @@ const timePlannerSchema = new Schema({
     type: String,
     required: true,
     match: dateSchema,
+  },
+  year: {
+    type: String,
+    required: true,
+    match: yearSchema,
+  },
+  month: {
+    type: String,
+    required: true,
+    match: monthSchema,
+  },
+  day: {
+    type: String,
+    required: true,
+    match: daySchema,
   },
 });
 
