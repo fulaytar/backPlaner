@@ -8,7 +8,8 @@ export const addLessonByPlanner = data => timePlanner.create(data);
 
 export const updateLessonById = async (filter, data, options = {}) => {
   const result = await timePlanner.findOneAndUpdate(filter, data, {
-    new: true,
+    /* new: true,
+    runValidators: true, */
     includeResultMetadata: true,
     ...options,
   });

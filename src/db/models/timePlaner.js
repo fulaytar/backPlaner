@@ -1,12 +1,10 @@
 import { Schema, model } from 'mongoose';
 import {
   dateSchema,
-  daySchema,
   inputTimeSchema,
-  monthSchema,
   phoneNumberSchema,
-  yearSchema,
 } from '../../constants/constant.js';
+import { mongooseSaveErrorModel, mongooseSetUpdateSettings } from '../hooks.js';
 
 const timePlannerSchema = new Schema(
   {
@@ -29,27 +27,21 @@ const timePlannerSchema = new Schema(
       required: true,
       match: dateSchema,
     },
-    year: {
-      type: String,
-      required: true,
-      match: yearSchema,
-    },
-    month: {
-      type: String,
-      required: true,
-      match: monthSchema,
-    },
-    day: {
-      type: String,
-      required: true,
-      match: daySchema,
-    },
   },
   {
     versionKey: false,
     timestamps: true,
   }
 );
+
+//спрацює для додавання
+timePlannerSchema.post('save', mongooseSaveErrorModel);
+
+//краща практика
+timePlannerSchema.pre('findOneAndUpdate', mongooseSetUpdateSettings);
+
+//оновлення
+timePlannerSchema.post('findOneAndUpdate', mongooseSaveErrorModel);
 
 const timePlanner = model('timePlaner', timePlannerSchema);
 
