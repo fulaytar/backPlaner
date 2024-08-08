@@ -9,8 +9,8 @@ import {
 } from '../controllers/PlanerController.js';
 import decoratorBody from '../utils/decoratorBody.js';
 import isValidId from '../middlewares/isValidId.js';
-import { validateBody } from '../utils/validateBody.js';
-import { addLessonByPlanerSchema } from '../validation/planer_schema.js';
+import validateBody from '../utils/validateBody.js';
+import { addLessonSchema } from '../validation/planerSchema.js';
 
 const plannerRouter = express.Router();
 
@@ -20,7 +20,7 @@ plannerRouter.get('/:id', isValidId, decoratorBody(getPlannerByIdController));
 
 plannerRouter.post(
   '/',
-  validateBody(addLessonByPlanerSchema),
+  validateBody(addLessonSchema),
   decoratorBody(addPlannerController)
 );
 

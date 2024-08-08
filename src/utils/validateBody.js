@@ -1,6 +1,6 @@
 import createHttpError from 'http-errors';
 
-export const validateBody = schema => {
+const validateBody = schema => {
   const func = async (req, res, next) => {
     try {
       await schema.validateAsync(req.body, {
@@ -13,6 +13,7 @@ export const validateBody = schema => {
       });
       next(responseError);
     }
-    return func;
   };
+  return func;
 };
+export default validateBody;
