@@ -12,3 +12,10 @@ export const addLessonSchema = Joi.object({
   lessonTime: Joi.string().pattern(inputTimeSchema).required(),
   date: Joi.string().pattern(dateSchema).required(),
 });
+
+export const updateLessonSchema = Joi.object({
+  name: Joi.string(),
+  phoneNumber: Joi.string().pattern(phoneNumberSchema),
+  lessonTime: Joi.string().pattern(inputTimeSchema),
+  date: Joi.string().pattern(dateSchema),
+});
