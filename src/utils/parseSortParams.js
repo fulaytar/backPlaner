@@ -6,14 +6,13 @@ import { sortDateList, sortOrderList } from '../constants/constant.js';
 
 const parseSortParams = ({ sortBy, sortOrder }, fieldList) => {
   let parsedSortOrder;
-  console.log(typeof sortOrder);
   let parsedSortBy;
 
   if (sortBy === 'date') {
     const numericSortOrder = parseInt(sortOrder);
     parsedSortOrder = sortDateList.includes(numericSortOrder)
       ? numericSortOrder
-      : sortDateList[0];
+      : sortDateList[1];
     parsedSortBy = 'date';
   } else {
     parsedSortOrder = sortOrderList.includes(sortOrder)
