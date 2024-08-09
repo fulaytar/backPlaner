@@ -6,11 +6,22 @@ import {
   getPlannerById,
   updateLessonById,
 } from '../services/timePlanerServices.js';
+import parsePaginationParams from '../utils/parsePaginationParams.js';
+import parseSortParams from '../utils/parseSortParams.js';
+import { lessonFiledList } from '../constants/constant.js';
 
 export const getAllPlannerController = async (req, res) => {
-  const allData = await getAllPlanner();
+  //console.log(req.query);
+  const { page, perPage } = parsePaginationParams(req.query);
+  const { sortBy, sortOrder } = parseSortParams(req.query, lessonFiledList);
+  const allData = await getAllPlanner({
+    page,
+    perPage,
+    sortBy,
+    sortOrder,
+  });
 
-  res.status(200).send({
+  res.status(200).json({
     status: 200,
     message: `Successfully found all planner`,
     data: allData,

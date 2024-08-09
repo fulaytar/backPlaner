@@ -1,6 +1,35 @@
 import timePlanner from '../db/models/timePlaner.js';
+import calcPaginationData from '../utils/calcPaginationData.js';
 
-export const getAllPlanner = () => timePlanner.find();
+export const getAllPlanner = async ({
+  page = 1,
+  perPage = 10,
+  sortBy = '_id',
+  sortOrder = 'asc',
+}) => {
+  const skip = (page - 1) * perPage;
+  const totalItems = await timePlanner.countDocuments();
+  const items = await timePlanner
+    .find()
+    .skip(skip)
+    .limit(perPage)
+    .sort({ [sortBy]: sortOrder });
+
+  const { hasNextPage, hasPrevPage, totalPages } = calcPaginationData({
+    total: totalItems,
+    page,
+    perPage,
+  });
+  return {
+    items,
+    totalItems,
+    page,
+    perPage,
+    totalPages,
+    hasPrevPage,
+    hasNextPage,
+  };
+};
 
 export const getPlannerById = id => timePlanner.findById(id);
 
