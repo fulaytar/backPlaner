@@ -2,24 +2,61 @@ import timePlanner from '../db/models/timePlaner.js';
 import calcPaginationData from '../utils/calcPaginationData.js';
 
 export const getAllPlanner = async ({
+  filter,
   page = 1,
   perPage = 10,
   sortBy = '_id',
   sortOrder = 'asc',
 }) => {
-  const skip = (page - 1) * perPage;
-  const totalItems = await timePlanner.countDocuments();
-  const items = await timePlanner
-    .find()
-    .skip(skip)
-    .limit(perPage)
-    .sort({ [sortBy]: sortOrder });
+  const { startDate, endDate } = filter; //{ startDate: undefined, endDate: undefined } фільтр
+  const skip = (page - 1) * perPage; //к-сть пропущених сторінок
+  let items;
+  const request = timePlanner.find(); //збережений проміс
+  let totalItems = await timePlanner.find().countDocuments();
 
+  if (startDate && endDate) {
+    //якщо у фільтрі присутні 2 дати
+    items = await request
+      .where('date')
+      .gte(startDate)
+      .lt(endDate)
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder });
+    totalItems = await timePlanner.find().merge(request).countDocuments();
+  } else if (startDate) {
+    //якщо у фільтрі присутня 1 дата
+    const date = new Date(startDate);
+
+    // Додаємо 1 день (24 години)
+    date.setUTCDate(date.getUTCDate() + 1);
+    const newDateString = date.toISOString();
+
+    items = await request
+      .where('date')
+      .gte(startDate)
+      .lt(newDateString)
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder });
+    totalItems = await timePlanner.find().merge(request).countDocuments();
+  } else {
+    //без фільтра
+
+    totalItems = await timePlanner.find().countDocuments();
+    items = await timePlanner
+      .find()
+      .skip(skip)
+      .limit(perPage)
+      .sort({ [sortBy]: sortOrder });
+  }
+  console.log(totalItems);
   const { hasNextPage, hasPrevPage, totalPages } = calcPaginationData({
     total: totalItems,
     page,
     perPage,
   });
+
   return {
     items,
     totalItems,

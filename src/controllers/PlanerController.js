@@ -9,16 +9,22 @@ import {
 import parsePaginationParams from '../utils/parsePaginationParams.js';
 import parseSortParams from '../utils/parseSortParams.js';
 import { lessonFiledList } from '../constants/constant.js';
+import parsedLessonDate from '../utils/parsedLessonDate.js';
 
 export const getAllPlannerController = async (req, res) => {
+  const { query } = req;
   //console.log(req.query);
-  const { page, perPage } = parsePaginationParams(req.query);
-  const { sortBy, sortOrder } = parseSortParams(req.query, lessonFiledList);
+  const { page, perPage } = parsePaginationParams(query);
+  const { sortBy, sortOrder } = parseSortParams(query, lessonFiledList);
+  const filter = parsedLessonDate(query);
+  //console.log(filter); //{ startDate: undefined, endDate: undefined }
+  // цей момент доробити
   const allData = await getAllPlanner({
     page,
     perPage,
     sortBy,
     sortOrder,
+    filter,
   });
 
   res.status(200).json({
