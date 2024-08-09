@@ -20,8 +20,8 @@ export const getAllPlanner = async ({
       .where('date')
       .gte(startDate)
       .lt(endDate)
-      .skip(skip)
-      .limit(perPage)
+      /*       .skip(skip)
+      .limit(perPage) */
       .sort({ [sortBy]: sortOrder });
     totalItems = await timePlanner.find().merge(request).countDocuments();
   } else if (startDate) {
@@ -36,8 +36,8 @@ export const getAllPlanner = async ({
       .where('date')
       .gte(startDate)
       .lt(newDateString)
-      .skip(skip)
-      .limit(perPage)
+      /*       .skip(skip)
+      .limit(perPage) */
       .sort({ [sortBy]: sortOrder });
     totalItems = await timePlanner.find().merge(request).countDocuments();
   } else {
