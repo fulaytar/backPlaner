@@ -12,7 +12,7 @@ export const getAllPlanner = async ({
   const skip = (page - 1) * perPage; //к-сть пропущених сторінок
   let items;
   const request = timePlanner.find(); //збережений проміс
-  let totalItems = await timePlanner.find().countDocuments();
+  let totalItems;
 
   if (startDate && endDate) {
     //якщо у фільтрі присутні 2 дати
@@ -20,10 +20,11 @@ export const getAllPlanner = async ({
       .where('date')
       .gte(startDate)
       .lt(endDate)
-      /*       .skip(skip)
-      .limit(perPage) */
+      .skip(skip)
+      .limit(perPage)
       .sort({ [sortBy]: sortOrder });
     totalItems = await timePlanner.find().merge(request).countDocuments();
+    console.log(totalItems, '1------------');
   } else if (startDate) {
     //якщо у фільтрі присутня 1 дата
     const date = new Date(startDate);
@@ -36,21 +37,22 @@ export const getAllPlanner = async ({
       .where('date')
       .gte(startDate)
       .lt(newDateString)
-      /*       .skip(skip)
-      .limit(perPage) */
+      .skip(skip)
+      .limit(perPage)
       .sort({ [sortBy]: sortOrder });
     totalItems = await timePlanner.find().merge(request).countDocuments();
+    console.log(totalItems, '--------02');
   } else {
     //без фільтра
 
     totalItems = await timePlanner.find().countDocuments();
+    console.log(totalItems, '3--------');
     items = await timePlanner
       .find()
       .skip(skip)
       .limit(perPage)
       .sort({ [sortBy]: sortOrder });
   }
-  console.log(totalItems);
   const { hasNextPage, hasPrevPage, totalPages } = calcPaginationData({
     total: totalItems,
     page,
