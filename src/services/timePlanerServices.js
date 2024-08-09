@@ -20,11 +20,12 @@ export const getAllPlanner = async ({
       .where('date')
       .gte(startDate)
       .lt(endDate)
-      .skip(skip)
-      .limit(perPage)
       .sort({ [sortBy]: sortOrder });
-    totalItems = await timePlanner.find().merge(request).countDocuments();
-    console.log(totalItems, '1------------');
+
+    return {
+      items,
+      totalItems: items.length,
+    };
   } else if (startDate) {
     //якщо у фільтрі присутня 1 дата
     const date = new Date(startDate);
@@ -37,16 +38,16 @@ export const getAllPlanner = async ({
       .where('date')
       .gte(startDate)
       .lt(newDateString)
-      .skip(skip)
-      .limit(perPage)
       .sort({ [sortBy]: sortOrder });
-    totalItems = await timePlanner.find().merge(request).countDocuments();
-    console.log(totalItems, '--------02');
+    return {
+      items,
+      totalItems: items.length,
+    };
   } else {
     //без фільтра
 
     totalItems = await timePlanner.find().countDocuments();
-    console.log(totalItems, '3--------');
+
     items = await timePlanner
       .find()
       .skip(skip)
